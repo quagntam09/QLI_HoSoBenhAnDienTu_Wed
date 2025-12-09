@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QLI_HoSoBenhAnDienTu_Wed.Models.tai_khoan>
+@{ ViewBag.Title = "Quản lý nhân sự"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h3>Danh sách nhân sự</h3>
+<button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#modalAdd">Thêm mới</button>
+
+<table class="table table-bordered bg-white">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Vai trò</th>
+            <th>Ngày tạo</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ten_dang_nhap</td>
+                <td>@item.vai_tro.ten_vai_tro</td>
+                <td>@item.ngay_tao</td>
+                <td>@(item.dang_hoat_dong == true ? "Hoạt động" : "Khóa")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="modalAdd" tabindex="-1">
+    <div class="modal-dialog">
+        <form action="/Admin/TaoTaiKhoan" method="post" class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Thêm nhân sự</h5></div>
+            <div class="modal-body">
+                <input name="username" class="form-control mb-2" placeholder="Tên đăng nhập" required>
+                <input name="password" type="password" class="form-control mb-2" placeholder="Mật khẩu" required>
+                <input name="hoTen" class="form-control mb-2" placeholder="Họ tên hiển thị" required>
+                <select name="roleId" class="form-control">
+                    <option value="2">Bác sĩ</option>
+                    <option value="3">Lễ tân</option>
+                    <option value="1">Admin</option>
+                </select>
+            </div>
+            <div class="modal-footer"><button class="btn btn-primary">Lưu</button></div>
+        </form>
+    </div>
+</div>

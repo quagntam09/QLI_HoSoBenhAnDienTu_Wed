@@ -1,0 +1,21 @@
+﻿<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Thời gian</th>
+            <th>Người thực hiện</th>
+            <th>Hành động</th>
+            <th>Dữ liệu cũ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.thoi_gian</td>
+                <td>@item.nguoi_thuc_hien</td>
+                <td>@item.hanh_dong</td>
+                <td>@item.du_lieu_cu</td>
+            </tr>
+        }
+    </tbody>
+</table>

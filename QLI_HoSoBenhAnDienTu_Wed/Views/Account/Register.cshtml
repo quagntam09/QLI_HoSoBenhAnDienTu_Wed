@@ -1,0 +1,49 @@
+﻿@{ ViewBag.Title = "Đăng Ký Tài Khoản"; }
+
+<h2 class="text-center">Đăng Ký Bệnh Nhân Mới</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label>Họ và Tên</label>
+            <input type="text" name="hoTen" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Ngày Sinh</label>
+            <input type="date" name="ngaySinh" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Giới Tính</label>
+            <select name="gioiTinh" class="form-control">
+                <option value="M">Nam</option>
+                <option value="F">Nữ</option>
+                <option value="O">Khác</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Số Điện Thoại</label>
+            <input type="text" name="sdt" class="form-control" required />
+        </div>
+        <hr />
+        <div class="form-group">
+            <label>Tên Đăng Nhập</label>
+            <input type="text" name="username" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>Mật Khẩu</label>
+            <input type="password" name="password" class="form-control" required />
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary btn-block">Đăng Ký Ngay</button>
+        <p class="text-center mt-2">
+            Đã có tài khoản? <a href="@Url.Action("Login")">Đăng nhập</a>
+        </p>
+    </div>
+}

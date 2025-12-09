@@ -1,0 +1,118 @@
+﻿@model IEnumerable<QLI_HoSoBenhAnDienTu_Wed.Models.f_LayLichSuKham_Result>
+@{ ViewBag.Title = "Lịch sử khám bệnh"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2 class="text-primary mb-4"><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử khám bệnh</h2>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th class="py-3 ps-4">Thời gian</th>
+                    <th class="py-3">Bác sĩ</th>
+                    <th class="py-3">Chẩn đoán</th>
+                    <th class="py-3 text-center">Đơn thuốc</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-4 fw-bold">
+                            @if (item.thoi_gian_bat_dau.HasValue)
+                            {@item.thoi_gian_bat_dau.Value.ToString("dd/MM/yyyy HH:mm")}
+                        </td>
+                        <td>@item.BacSiKham</td>
+                        <td>@item.chan_doan_so_bo</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-info" onclick="xemDonThuoc(@item.ma_dot_kham)">
+                                <i class="fa-solid fa-prescription-bottle-medical"></i> Xem đơn
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDonThuoc" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title"><i class="fa-solid fa-pills"></i> Chi tiết đơn thuốc</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="tblChiTietThuoc">
+                    <thead>
+                        <tr>
+                            <th>Tên thuốc</th>
+                            <th>SL</th>
+                            <th>Đơn vị</th>
+                            <th>Cách dùng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="alert alert-warning mt-2 d-none" id="divLoiDan">
+                    <b><i class="fa-solid fa-user-doctor"></i> Lời dặn của bác sĩ:</b> <span id="spanLoiDan"></span>
+                </div>
+                <p id="msgEmpty" class="text-center text-muted d-none">Không có thuốc nào được kê trong đợt khám này.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    function xemDonThuoc(id) {
+        // 1. Xóa dữ liệu cũ
+        $('#tblChiTietThuoc tbody').empty();
+        $('#msgEmpty').addClass('d-none');
+        $('#tblChiTietThuoc').removeClass('d-none');
+        $('#divLoiDan').addClass('d-none');
+
+        // 2. Gọi AJAX lấy đơn thuốc
+        $.get("/BenhNhan/XemChiTietDonThuoc", { maDotKham: id }, function(res) {
+            if (res.success) {
+                if (res.data.length === 0) {
+                    $('#msgEmpty').removeClass('d-none');
+                    $('#tblChiTietThuoc').addClass('d-none');
+                } else {
+                    var html = '';
+                    var loiDan = '';
+
+                    $.each(res.data, function(i, item) {
+                        html += '<tr>';
+                        html += '<td class="fw-bold">' + item.TenThuoc + '</td>';
+                        html += '<td class="text-center text-primary fw-bold">' + item.SoLuong + '</td>';
+                        html += '<td>' + (item.DonVi || '') + '</td>';
+                        html += '<td>' + item.CachDung + '</td>';
+                        html += '</tr>';
+
+                        // Lấy lời dặn (giống nhau cho mọi dòng thuốc)
+                        if(item.LoiDan) loiDan = item.LoiDan;
+                    });
+
+                    $('#tblChiTietThuoc tbody').html(html);
+
+                    if(loiDan) {
+                        $('#divLoiDan').removeClass('d-none');
+                        $('#spanLoiDan').text(loiDan);
+                    }
+                }
+                // 3. Hiển thị Modal
+                var myModal = new bootstrap.Modal(document.getElementById('modalDonThuoc'));
+                myModal.show();
+            } else {
+                alert("Lỗi tải dữ liệu!");
+            }
+        });
+    }
+    </script>
+}

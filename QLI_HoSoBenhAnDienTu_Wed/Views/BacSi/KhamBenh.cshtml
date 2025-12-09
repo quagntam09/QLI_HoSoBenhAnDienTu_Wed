@@ -1,0 +1,162 @@
+﻿@model QLI_HoSoBenhAnDienTu_Wed.Models.dot_kham
+@{
+    ViewBag.Title = "Khám bệnh chi tiết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="fw-bold text-primary"><i class="fa-solid fa-file-medical me-2"></i>Phiếu Khám Bệnh</h4>
+    <a href="@Url.Action("Dashboard", "BacSi")" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-arrow-left me-1"></i> Quay lại</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card card-medical mb-4">
+            <div class="card-header bg-primary text-white py-3">
+                <h6 class="mb-0 fw-bold"><i class="fa-solid fa-user-doctor me-2"></i>KẾT QUẢ KHÁM LÂM SÀNG</h6>
+            </div>
+            <div class="card-body p-4">
+                <form action="/BacSi/LuuKetQua" method="post">
+                    <input type="hidden" name="maDotKham" value="@Model.ma_dot_kham" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary">Chẩn đoán sơ bộ <span class="text-danger">*</span></label>
+                        <textarea name="chanDoan" class="form-control bg-light" rows="3" placeholder="Nhập chẩn đoán bệnh..." required>@Model.chan_doan_so_bo</textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary">Kết luận & Hướng điều trị</label>
+                        <textarea name="ketLuan" class="form-control bg-light" rows="4" placeholder="Nhập kết luận và hướng dẫn..." required>@Model.ket_luan</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100 py-3 fw-bold shadow-sm rounded-3">
+                        <i class="fa-solid fa-floppy-disk me-2"></i> LƯU HỒ SƠ & KẾT THÚC
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card card-medical border-info border-2">
+            <div class="card-body">
+                <h6 class="fw-bold text-info mb-3"><i class="fa-regular fa-calendar-plus me-2"></i>HẸN TÁI KHÁM (Nếu cần)</h6>
+                @using (Html.BeginForm("TaoLichTaiKham", "BacSi", FormMethod.Post))
+                {
+                    <input type="hidden" name="maDotKham" value="@Model.ma_dot_kham" />
+                    <div class="row align-items-end g-2">
+                        <div class="col-md-3">
+                            <label class="small text-muted mb-1">Sau (ngày)</label>
+                            <input type="number" name="soNgay" class="form-control" value="7" min="1" required />
+                        </div>
+                        <div class="col-md-7">
+                            <label class="small text-muted mb-1">Ghi chú cho lần sau</label>
+                            <input type="text" name="ghiChu" class="form-control" placeholder="Vd: Cắt chỉ, xem lại XQuang..." />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-info text-white w-100"><i class="fa-solid fa-check"></i> Tạo</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card card-medical h-100">
+            <div class="card-header bg-white py-3 border-bottom">
+                <h6 class="mb-0 fw-bold text-dark"><i class="fa-solid fa-capsules me-2 text-warning"></i>KÊ ĐƠN THUỐC</h6>
+            </div>
+            <div class="card-body">
+                <div class="bg-light p-3 rounded-3 mb-3 border">
+                    <div class="mb-2">
+                        <label class="small fw-bold mb-1">Chọn thuốc:</label>
+                        @Html.DropDownList("ddlThuoc", (SelectList)ViewBag.ListThuoc, new { @class = "form-select", id = "chonThuoc" })
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-4">
+                            <label class="small fw-bold mb-1">Số lượng:</label>
+                            <input type="number" id="soLuong" class="form-control text-center fw-bold" value="1" min="1">
+                        </div>
+                        <div class="col-8">
+                            <label class="small fw-bold mb-1">Cách dùng:</label>
+                            <input type="text" id="cachDung" class="form-control" placeholder="Sáng 1, Tối 1...">
+                        </div>
+                    </div>
+                    <button onclick="themThuoc()" class="btn btn-warning w-100 fw-bold text-dark">
+                        <i class="fa-solid fa-plus me-1"></i> Thêm vào đơn
+                    </button>
+                </div>
+
+                <div class="table-responsive border rounded-3" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-sm table-striped mb-0" id="tblDonThuoc">
+                        <thead class="table-secondary sticky-top">
+                            <tr>
+                                <th class="ps-3">Tên thuốc</th>
+                                <th class="text-center" style="width: 60px">SL</th>
+                                <th>HDSD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    $(document).ready(function() {
+        loadDonThuoc();
+    });
+
+    function themThuoc() {
+        var thuocId = $('#chonThuoc').val();
+        var sl = $('#soLuong').val();
+        var cach = $('#cachDung').val();
+
+        if(!thuocId || sl <= 0 || cach.trim() === "") {
+            alert("Vui lòng nhập đầy đủ thông tin thuốc!"); return;
+        }
+
+        $.post("/BacSi/KeDon", {
+            MaDotKham: '@Model.ma_dot_kham',
+            MaThuoc: thuocId,
+            SoLuong: sl,
+            CachDung: cach
+        }, function(res){
+            if(res.success) {
+                loadDonThuoc();
+                $('#soLuong').val(1);
+                $('#cachDung').val('');
+                $('#tblDonThuoc').fadeOut(100).fadeIn(100);
+            } else {
+                alert("Lỗi: " + res.message);
+            }
+        });
+    }
+
+    function loadDonThuoc() {
+        $.get("/BacSi/GetDonThuoc", {
+            maDotKham: '@Model.ma_dot_kham',
+            _: new Date().getTime()
+        }, function(res) {
+            if (res.success) {
+                var html = '';
+                if (res.data.length === 0) {
+                    html = '<tr><td colspan="3" class="text-center py-4 text-muted small">Chưa có thuốc nào.<br>Vui lòng kê đơn phía trên.</td></tr>';
+                } else {
+                    $.each(res.data, function(i, item) {
+                        html += '<tr>';
+                        html += '<td class="ps-3"><div class="fw-bold text-dark">' + item.TenThuoc + '</div><small class="text-muted">' + (item.DonVi || 'Viên') + '</small></td>';
+                        html += '<td class="text-center align-middle"><span class="badge bg-primary rounded-pill">' + item.SoLuong + '</span></td>';
+                        html += '<td class="align-middle small text-secondary">' + item.CachDung + '</td>';
+                        html += '</tr>';
+                    });
+                }
+                $('#tblDonThuoc tbody').html(html);
+            }
+        });
+    }
+    </script>
+}

@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Sao lưu hệ thống";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sao lưu & Phục hồi Dữ liệu</h2>
+<div class="alert alert-warning">
+    <i class="fa fa-exclamation-triangle"></i> Lưu ý: File backup sẽ được lưu tại <b>C:\Backup_SQL</b> trên máy chủ chứa SQL Server. Hãy đảm bảo thư mục này tồn tại.
+</div>
+
+@if (TempData["Success"] != null)
+{<div class="alert alert-success">@TempData["Success"]</div>}
+@if (TempData["Error"] != null)
+{<div class="alert alert-danger">@TempData["Error"]</div>}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">Full Backup (Sao lưu toàn bộ)</div>
+            <div class="card-body">
+                <p>Sao lưu toàn bộ dữ liệu hiện tại. Quá trình này có thể mất vài phút.</p>
+                <form action="/Admin/ThucHienSaoLuu" method="post">
+                    <input type="hidden" name="loaiBackup" value="FULL" />
+                    <button type="submit" class="btn btn-primary">Thực hiện Full Backup</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">Differential Backup (Sao lưu khác biệt)</div>
+            <div class="card-body">
+                <p>Chỉ sao lưu những dữ liệu thay đổi so với lần Full Backup gần nhất.</p>
+                <form action="/Admin/ThucHienSaoLuu" method="post">
+                    <input type="hidden" name="loaiBackup" value="DIFF" />
+                    <button type="submit" class="btn btn-secondary">Thực hiện Diff Backup</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

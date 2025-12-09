@@ -1,0 +1,82 @@
+﻿@{ ViewBag.Title = "Admin Dashboard"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<h2 class="mb-4">Tổng quan hệ thống</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Tổng Bệnh Nhân</h5>
+                <h2 class="display-4">@ViewBag.TongBenhNhan</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Bác sĩ hoạt động</h5>
+                <h2 class="display-4">@ViewBag.TongBacSi</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Doanh thu tháng này</h5>
+                <h2>@string.Format("{0:N0}", ViewBag.DoanhThu) đ</h2>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Thống kê Bệnh nhân theo Khoa</div>
+                <div class="card-body">
+                    <canvas id="chartKhoa"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Tỷ lệ Giới tính</div>
+                <div class="card-body">
+                    <canvas id="chartGioiTinh"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    fetch('/Admin/GetDuLieuThongKe')
+        .then(response => response.json())
+        .then(res => {
+            if (res.success) {
+                // 1. Vẽ biểu đồ Khoa (Bar Chart)
+                new Chart(document.getElementById('chartKhoa'), {
+                    type: 'bar',
+                    data: {
+                        labels: res.khoa.map(x => x.TenKhoa),
+                        datasets: [{
+                            label: 'Số lượt khám',
+                            data: res.khoa.map(x => x.SoLuong),
+                            backgroundColor: '#36b9cc'
+                        }]
+                    }
+                });
+
+                // 2. Vẽ biểu đồ Giới tính (Pie Chart)
+                new Chart(document.getElementById('chartGioiTinh'), {
+                    type: 'pie',
+                    data: {
+                        labels: res.gioitinh.map(x => x.Label),
+                        datasets: [{
+                            data: res.gioitinh.map(x => x.Value),
+                            backgroundColor: ['#4e73df', '#e74a3b', '#f6c23e']
+                        }]
+                    }
+                });
+            }
+        });
+    </script>
+</div>

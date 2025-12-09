@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="13e7e385b4bf4dc48b58bcc6a230cf21" Name="Diagram1" ZoomLevel="52">
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.bac_si" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.benh_nhan" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.chi_dinh_dich_vu" Width="1.5" PointX="12.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.chi_tiet_don_thuoc" Width="1.5" PointX="12" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.dich_vu" Width="1.5" PointX="10.5" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.don_thuoc" Width="1.5" PointX="9.75" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.dot_kham" Width="1.5" PointX="7.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.khoa_phong" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.lich_hen" Width="1.5" PointX="10.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.nhan_vien" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.tai_khoan" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.thuoc" Width="1.5" PointX="9.75" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.vai_tro" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_DanhSachChoKham" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_HoSoBenhAnChiTiet" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_TopThuocBanChay" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__bac_si__ma_khoa__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__bac_si__ma_tai_k__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__dot_kham__ma_bac__5AEE82B9" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__lich_hen__ma_bac__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__benh_nhan__ma_ta__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__dot_kham__ma_ben__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__lich_hen__ma_ben__534D60F1" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__chi_dinh___ma_di__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__chi_dinh___ma_do__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__chi_tiet___ma_do__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__chi_tiet___ma_th__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__don_thuoc__ma_do__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__dot_kham__ma_lic__5BE2A6F2" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__nhan_vien__ma_ta__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BENHVIEN_WEBModel.FK__tai_khoan__ma_va__3D5E1FD2" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_BaoCaoDoanhThuThang" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_LichHenChoLeTan" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.nhat_ky_he_thong" Width="1.5" PointX="11.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_ThongKeBenhNhanTheoKhoa" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="QL_BENHVIEN_WEBModel.v_ThongKeTyLeGioiTinh" Width="1.5" PointX="2.75" PointY="12.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

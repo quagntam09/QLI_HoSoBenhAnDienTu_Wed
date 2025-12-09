@@ -1,0 +1,83 @@
+﻿@model IEnumerable<QLI_HoSoBenhAnDienTu_Wed.Models.v_DanhSachChoKham>
+@{
+    ViewBag.Title = "Bàn làm việc Bác sĩ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4 align-items-center">
+    <div class="col-md-8">
+        <h3 class="fw-bold text-dark mb-0">Xin chào, Bác sĩ!</h3>
+        <p class="text-muted mb-0">Hôm nay là @DateTime.Now.ToString("dd/MM/yyyy") - Chúc một ngày làm việc hiệu quả.</p>
+    </div>
+    <div class="col-md-4 text-end">
+        <div class="badge bg-white text-primary p-3 shadow-sm rounded-pill border">
+            <i class="fa-solid fa-users me-2"></i> Đang chờ: <strong>@Model.Count()</strong> bệnh nhân
+        </div>
+    </div>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5">
+        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" width="120" alt="Empty" class="mb-3 opacity-50" />
+        <h5 class="text-muted fw-normal">Hiện tại không có bệnh nhân nào trong hàng đợi.</h5>
+    </div>
+}
+else
+{
+    <div class="card card-medical">
+        <div class="card-header bg-white py-3 border-bottom-0">
+            <h5 class="mb-0 text-primary fw-bold"><i class="fa-solid fa-list-ul me-2"></i>Danh sách chờ khám</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-secondary">
+                    <tr>
+                        <th class="ps-4 py-3">Giờ hẹn</th>
+                        <th>Thông tin bệnh nhân</th>
+                        <th>Tuổi</th>
+                        <th>Khoa khám</th>
+                        <th class="text-end pe-4">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="ps-4">
+                                <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                                    <i class="fa-regular fa-clock me-1"></i> @String.Format("{0:HH:mm}", item.thoi_gian_hen)
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">@item.TenBenhNhan</h6>
+                                        <small class="text-muted">
+                                            @if (item.GioiTinh == "Nam")
+                                            {<i class="fa-solid fa-mars text-info"></i> }
+                                            else
+                                            { <i class="fa-solid fa-venus text-danger"></i>}
+                                            @item.GioiTinh
+                                        </small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@item.Tuoi</td>
+                            <td><span class="text-primary fw-medium">@item.ten_khoa</span></td>
+                            <td class="text-end pe-4">
+                                <a href="@Url.Action("KhamBenh", "BacSi", new { maLichHen = item.ma_lich_hen })"
+                                   class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
+                                    Tiếp nhận <i class="fa-solid fa-arrow-right ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

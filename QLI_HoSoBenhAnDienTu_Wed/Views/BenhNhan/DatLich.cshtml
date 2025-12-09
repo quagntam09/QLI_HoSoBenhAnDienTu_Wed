@@ -1,0 +1,58 @@
+﻿@{ ViewBag.Title = "Đặt lịch khám bệnh"; Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card card-medical border-0 shadow-lg mt-4">
+            <div class="card-header bg-gradient bg-primary text-white py-4 text-center">
+                <h4 class="mb-1 fw-bold"><i class="fa-regular fa-calendar-check me-2"></i>ĐĂNG KÝ KHÁM BỆNH</h4>
+                <p class="mb-0 small opacity-75">Vui lòng nhập thông tin, chúng tôi sẽ sắp xếp bác sĩ tốt nhất cho bạn.</p>
+            </div>
+            <div class="card-body p-4">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger shadow-sm border-0"><i class="fa-solid fa-triangle-exclamation me-2"></i> @ViewBag.Error</div>
+                }
+
+                <form action="/BenhNhan/DatLich" method="post">
+
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2 text-dark">
+                            <i class="fa-regular fa-clock text-primary me-1"></i> Thời gian mong muốn
+                        </label>
+                        <input type="datetime-local" name="thoiGianHen" class="form-control py-2 bg-light border-0" required
+                               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="fw-bold mb-2 text-dark">
+                            <i class="fa-solid fa-notes-medical text-danger me-1"></i> Triệu chứng / Lý do khám
+                        </label>
+                        <textarea name="lyDo" class="form-control bg-light border-0" rows="4"
+                                  placeholder="Ví dụ: Đau đầu dữ dội, buồn nôn, sốt cao..." required></textarea>
+                        <div class="form-text text-muted fst-italic mt-2">
+                            * Mô tả càng chi tiết sẽ giúp Lễ tân xếp đúng chuyên khoa cho bạn.
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow mb-2 transition-hover">
+                        XÁC NHẬN ĐẶT LỊCH
+                    </button>
+
+                    <div class="text-center mt-3">
+                        <a href="@Url.Action("LichSuKham")" class="text-decoration-none text-muted small">
+                            Xem lịch sử khám
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .transition-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4) !important;
+    }
+</style>
